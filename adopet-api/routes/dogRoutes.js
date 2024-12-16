@@ -39,6 +39,26 @@ router.put('/dogs/:id', async (req, res) => {
   }
 });
 
+// SEARCH dogs by name
+router.get('/dogs/search', async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({ message: 'Name query parameter is required' });
+  }
+
+  try {
+    const dogs = await Dog.find({ name: { $regex: name, $options: 'i' } }); // Case-insensitive search
+    if (dogs.length === 0) {
+      return res.status(404).json({ message: 'No dogs found with that name' });
+    }
+    res.status(200).json(dogs);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
 // DELETE a dog by ID
 router.delete('/dogs/:id', async (req, res) => {
   const { id } = req.params;

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dogRoutes = require('./routes/dogRoutes');
+const ownerRoutes = require('./routes/ownerRoutes');
 
 // Initialize Express app
 const app = express();
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 // Set up routes
 app.use('/api', dogRoutes);
+app.use('/api', ownerRoutes);
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/petAdoption', { useNewUrlParser: true, useUnifiedTopology: true })

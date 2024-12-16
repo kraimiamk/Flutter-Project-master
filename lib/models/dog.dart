@@ -1,8 +1,7 @@
 import '../models/owner.dart';
-import '../models/owner.dart';
 
 class Dog {
-  final int id;
+  final String id; // Change to String to accommodate MongoDB ObjectId
   final String name;
   final double age;
   final String gender;
@@ -14,7 +13,7 @@ class Dog {
   final Owner owner;
 
   Dog({
-    required this.id,
+    required this.id, // Change the type to String here
     required this.name,
     required this.age,
     required this.gender,
@@ -29,7 +28,7 @@ class Dog {
   // Convert JSON to Dog object
   factory Dog.fromJson(Map<String, dynamic> json) {
     return Dog(
-      id: int.tryParse(json['_id'].toString()) ?? 0,  // Try parsing to int, default to 0 if failed
+      id: json['_id'].toString(),  // Ensure we treat _id as String
       name: json['name'],
       age: json['age'],
       gender: json['gender'],
@@ -42,10 +41,10 @@ class Dog {
     );
   }
 
-
   // Convert Dog to JSON
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,  // Ensure the id is included in the JSON data
       'name': name,
       'age': age,
       'gender': gender,
@@ -54,7 +53,7 @@ class Dog {
       'distance': distance,
       'imageUrl': imageUrl,
       'description': description,
-      'owner': owner.toJson(),  // Ensure owner is serialized to JSON
+      'owner': owner.toJson(),
     };
   }
 }

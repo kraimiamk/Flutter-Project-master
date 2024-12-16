@@ -11,8 +11,8 @@ class PetDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dog Details'),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: Colors.teal,
+        elevation: 4,
         centerTitle: true,
         titleTextStyle: const TextStyle(
           color: Colors.black,
@@ -29,8 +29,8 @@ class PetDetailScreen extends StatelessWidget {
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
-              child: Image.asset(
-                dog.imageUrl,
+              child: Image.network(
+                dog.imageUrl, // Network image for better flexibility
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -47,14 +47,15 @@ class PetDetailScreen extends StatelessWidget {
                         child: Text(
                           dog.name,
                           style: const TextStyle(
-                            fontSize: 24,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
+                            horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
                           color: dog.gender == "Male"
                               ? Colors.blue.shade100
@@ -64,30 +65,36 @@ class PetDetailScreen extends StatelessWidget {
                         child: Text(
                           dog.gender,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       const Icon(
                         Icons.location_on,
-                        size: 16,
+                        size: 18,
                         color: Colors.red,
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 8),
                       Text(
                         dog.distance,
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
                       Text(
                         "${dog.age} yrs | Playful",
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -95,15 +102,16 @@ class PetDetailScreen extends StatelessWidget {
                   const Text(
                     "About me",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     dog.description,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -111,12 +119,16 @@ class PetDetailScreen extends StatelessWidget {
                   const Text(
                     "Quick Info",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
+
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
+
                   Row(
+
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildInfoTile("Age", "${dog.age} yrs"),
@@ -134,24 +146,41 @@ class PetDetailScreen extends StatelessWidget {
   }
 
   Widget _buildInfoTile(String title, String value) {
-    return Column(
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: Offset(0, 2),
           ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade700,
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade700,
+
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+

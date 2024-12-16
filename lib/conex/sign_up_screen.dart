@@ -60,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Colors.teal.shade50,
       appBar: AppBar(
-        title: Text('Sign Up'),
+
         backgroundColor: Colors.teal,
       ),
       body: _isSuccess

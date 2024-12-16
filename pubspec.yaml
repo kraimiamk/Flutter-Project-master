@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  image_picker: ^0.8.6
   lottie: ^2.1.0
   firebase_core: ^3.8.1
   firebase_auth: ^5.3.4
@@ -70,6 +71,8 @@ flutter:
   assets:
     - lib/assets/success.json
     - lib/assets/success1.json
+    - lib/assets/drawable/orange_dog.png
+    - lib/assets/adopet.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -114,13 +114,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey[50],
       appBar: AppBar(
-        title: Text('Login'),
         backgroundColor: Colors.teal,
       ),
       body: Stack(
@@ -137,98 +135,109 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: child,
                   );
                 },
-                child: Card(
-                  elevation: 12,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome Back!',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal.shade700,
-                          ),
-                        ),
-                        SizedBox(height: 30),
-                        _buildGradientTextField(
-                          controller: _emailController,
-                          label: 'Email',
-                          icon: Icons.email,
-                        ),
-                        SizedBox(height: 16),
-                        _buildGradientTextField(
-                          controller: _passwordController,
-                          label: 'Password',
-                          icon: Icons.lock,
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 30),
-                        _isLoading
-                            ? Center(child: CircularProgressIndicator())
-                            : SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _login,
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: Colors.teal,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              shadowColor: Colors.teal.shade200,
-                              elevation: 8,
-                            ),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        TextButton(
-                          onPressed: _resetPassword,
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()),
-                              );
-                            },
-                            child: Text(
-                              'Don\'t have an account? Sign Up',
-                              style: TextStyle(
-                                color: Colors.teal,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                child: Column(
+                  children: [
+                    // Circular image at the top
+                    CircleAvatar(
+                      radius: 50, // Size of the circular image
+                      backgroundImage: AssetImage('lib/assets/adopet.png'), // Path to your image
                     ),
-                  ),
+                    SizedBox(height: 20),
+                    // The Card widget below the circular image
+                    Card(
+                      elevation: 12,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome Back!',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.teal.shade700,
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            _buildGradientTextField(
+                              controller: _emailController,
+                              label: 'Email',
+                              icon: Icons.email,
+                            ),
+                            SizedBox(height: 16),
+                            _buildGradientTextField(
+                              controller: _passwordController,
+                              label: 'Password',
+                              icon: Icons.lock,
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 30),
+                            _isLoading
+                                ? Center(child: CircularProgressIndicator())
+                                : SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _login,
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  backgroundColor: Colors.teal,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  shadowColor: Colors.teal.shade200,
+                                  elevation: 8,
+                                ),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            TextButton(
+                              onPressed: _resetPassword,
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  color: Colors.teal,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Center(
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpScreen()),
+                                  );
+                                },
+                                child: Text(
+                                  'Don\'t have an account? Sign Up',
+                                  style: TextStyle(
+                                    color: Colors.teal,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -248,6 +257,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       ),
     );
   }
+
 
   Widget _buildGradientTextField({
     required TextEditingController controller,
