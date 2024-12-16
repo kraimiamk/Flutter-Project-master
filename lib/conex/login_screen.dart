@@ -96,7 +96,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   // Forgot password function
   Future<void> _resetPassword() async {
-    if (_emailController.text.isEmpty) {
+    String email = _emailController.text;
+
+    if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please enter your email address')),
       );
@@ -104,16 +106,26 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     }
 
     try {
-      await _auth.sendPasswordResetEmail(email: _emailController.text);
+      // Send password reset email to the provided email (your Gmail)
+      await _auth.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password reset email sent')),
+        SnackBar(content: Text('Password reset email sent to $email. Please check your inbox.')),
+      );
+
+      // Optionally, navigate to login screen or display further instructions
+      await Future.delayed(Duration(seconds: 3)); // Optional delay
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     } catch (e) {
+      // Handle errors such as invalid email address or network issues
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString().split("]")[1].trim()}')),
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
