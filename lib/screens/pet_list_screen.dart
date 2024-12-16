@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/dog.dart';
 import '../services/api_service.dart';
 import 'pet_detail_screen.dart';
 import '../crud/Add_Dog.dart';
+import '../conex/login_screen.dart';
 
 class PetListScreen extends StatefulWidget {
   @override
@@ -27,12 +29,27 @@ class _PetListScreenState extends State<PetListScreen> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Dog deleted successfully!')));
   }
 
+  // Method to log out the user
+  Future<void> _logout() async {
+    await FirebaseAuth.instance.signOut();  // Log out the user from Firebase
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),  // Navigate to LoginScreen after logout
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Available Dogs'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: _logout,  // Call the logout method when pressed
+          ),
+        ],
       ),
       body: FutureBuilder<List<Dog>>(
         future: dogList,
