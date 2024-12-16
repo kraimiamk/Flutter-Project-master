@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/dog.dart';
 
-class PetDetailScreen extends StatelessWidget {
+class PetDetailScreen extends StatefulWidget {
   final Dog dog;
 
   const PetDetailScreen({Key? key, required this.dog}) : super(key: key);
+
+  @override
+  _PetDetailScreenState createState() => _PetDetailScreenState();
+}
+
+class _PetDetailScreenState extends State<PetDetailScreen> {
+  int likes = 0;
+  int dislikes = 0;
+  final TextEditingController _commentController = TextEditingController();
+  final List<String> comments = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +40,7 @@ class PetDetailScreen extends StatelessWidget {
                 bottomRight: Radius.circular(30),
               ),
               child: Image.network(
-                dog.imageUrl, // Network image for better flexibility
+                widget.dog.imageUrl,
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -45,7 +55,7 @@ class PetDetailScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          dog.name,
+                          widget.dog.name,
                           style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -57,13 +67,13 @@ class PetDetailScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: dog.gender == "Male"
+                          color: widget.dog.gender == "Male"
                               ? Colors.blue.shade100
                               : Colors.pink.shade100,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Text(
-                          dog.gender,
+                          widget.dog.gender,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -83,13 +93,13 @@ class PetDetailScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        dog.distance,
+                        widget.dog.distance,
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       const Spacer(),
                       Text(
-                        "${dog.age} yrs | Playful",
+                        "${widget.dog.age} yrs | Playful",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -109,7 +119,7 @@ class PetDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    dog.description,
+                    widget.dog.description,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey.shade700,
@@ -122,19 +132,100 @@ class PetDetailScreen extends StatelessWidget {
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-
                     ),
                   ),
                   const SizedBox(height: 12),
-
                   Row(
-
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildInfoTile("Age", "${dog.age} yrs"),
-                      _buildInfoTile("Color", dog.color),
-                      _buildInfoTile("Weight", "${dog.weight} kg"),
+                      _buildInfoTile("Age", "${widget.dog.age} yrs"),
+                      _buildInfoTile("Color", widget.dog.color),
+                      _buildInfoTile("Weight", "${widget.dog.weight} kg"),
                     ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Your Reaction",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildReactionButton(
+                        icon: Icons.thumb_up,
+                        color: Colors.green,
+                        count: likes,
+                        onTap: () {
+                          setState(() {
+                            likes++;
+                          });
+                        },
+                      ),
+                      _buildReactionButton(
+                        icon: Icons.thumb_down,
+                        color: Colors.red,
+                        count: dislikes,
+                        onTap: () {
+                          setState(() {
+                            dislikes++;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Comments",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _commentController,
+                    decoration: InputDecoration(
+                      hintText: "Add a comment...",
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.send, color: Colors.teal),
+                        onPressed: () {
+                          if (_commentController.text.isNotEmpty) {
+                            setState(() {
+                              comments.add(_commentController.text);
+                              _commentController.clear();
+                            });
+                          }
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: comments.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: const Icon(Icons.comment, color: Colors.teal),
+                        title: Text(
+                          comments[index],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -152,7 +243,7 @@ class PetDetailScreen extends StatelessWidget {
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.black12,
             blurRadius: 6,
             offset: Offset(0, 2),
@@ -175,7 +266,34 @@ class PetDetailScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey.shade700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _buildReactionButton({
+    required IconData icon,
+    required Color color,
+    required int count,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 32,
+            color: color,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            count.toString(),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
